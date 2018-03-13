@@ -1,0 +1,75 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+vector<int> arr[20];
+bool visit[20],used[20];
+bool cycle=false;
+void intalize(int s)
+{
+    for(int i=0;i<s;++i)
+       { visit[i]=false;
+        
+       }
+}
+void dfs(int v,int p)
+{
+    
+    visit[v]=true;
+    for(int i=0;i<arr[v].size();++i)
+    {
+        
+        if(visit[arr[v][i]]==false)
+        {
+            dfs(arr[v][i],v);
+            
+        }
+        else if(arr[v][i]!=p)
+        { cycle=true;
+           break;
+        }
+    }
+}
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	int node,edge;
+	cin>>node>>edge;
+	for(int i=0;i<edge;++i)
+	{
+	    int a,b;
+	    cin>>a>>b;
+	    arr[a].push_back(b);
+	  //  arr[b].push_back(a);
+	}
+	intalize(node);
+	for(int i=0;i<node;++i)
+	{
+	    if(visit[i]==false)
+	    {
+	        dfs(i,-1);
+	        if(cycle)
+	        break;
+	    }
+	}
+	
+	if(cycle)
+	 cout<<"cycle"<<endl;
+	else
+	cout<<"not"<<endl;
+	
+	cycle=false;
+	for(int i=0;i<edge;++i)
+	{
+	    for(int j=0;j<arr[i].size();++j)
+	      arr[i].erase(arr[i].begin()+j);
+	}
+
+	
+	}
+	
+	return 0;
+	
+}

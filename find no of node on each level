@@ -1,0 +1,121 @@
+
+#include <stdio.h>
+#include<stdlib.h>
+#include<queue>
+using namespace std;
+int global=0;
+struct node
+{
+    
+    int data;
+    struct node *left,*right;
+};
+
+struct node *root;
+
+void insert(int data)
+{
+    
+    struct node *p,*t;
+    p=(struct node*)malloc(sizeof(struct node));
+    p->data=data;
+    p->left=NULL;
+    p->right=NULL;
+    
+    if(root==NULL)
+       root=p;
+    else
+    {
+        t=root;
+        while(t)
+        {
+            if(data < t->data)
+            {
+                if(t->left==NULL)
+                  { t->left=p;
+                    break;
+                  }
+                  
+                  t=t->left;
+                
+                
+            }
+            else if(data > t->data)
+            {
+                if(t->right==NULL)
+                  { 
+                      t->right=p;
+                    break;
+                  }
+                
+                 t=t->right;
+                 
+            }
+            else
+              break;
+        }
+    }
+    
+    
+}
+
+void levelordertraversal(struct node *root)
+{
+    struct node *temp;
+     queue<struct node *> q ;
+     if(root==NULL)
+        return ;
+      else
+      {
+          q.push(root);
+          q.push(NULL);
+          while(!q.empty())
+          {
+              temp=q.front();
+                   q.pop();
+            if(temp)
+              printf("%d ",temp->data);
+            if(temp==NULL)
+            {
+                printf("level is->%d \n",global);
+                if(!q.empty())
+                {
+                    q.push(NULL);
+                    ++global;
+                }
+            }
+            else
+            {
+            if(temp->left)
+            {
+                 q.push(temp->left);
+            }
+              
+            if(temp->right)
+            {
+                q.push(temp->right);
+            }
+              
+            }  
+          }
+          
+          
+          
+          
+      }
+    
+    
+    
+    
+}
+
+int main()
+{
+   insert(3);
+   insert(1);
+   insert(2);
+   insert(4);
+   levelordertraversal(root);
+   
+    return 0;
+}
